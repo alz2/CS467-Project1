@@ -15,3 +15,12 @@ two different methods to do so.
 
 2) [Scraping Messinger](https://github.com/ownaginatious/fbchat-archive-parser)
 
+
+### Current Plan
+
+* Color maps to metric
+* Intensity maps to value
+* 1 view: You vs People.
+   - possibly: One person vs metrics
+* Zooming: combining colors issue
+* Bucketing of some minimal time interval (e.g 1 hour)
