@@ -1,0 +1,37 @@
+{
+  "participants": [
+    {
+      "name": "Andrew Zhang"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Andrew Zhang",
+      "timestamp_ms": 1529965316825,
+      "content": "You sent a photo.",
+      "photos": [
+        {
+          "uri": "messages/inbox/AndrewZhang_DMTp_6ERjw/photos/36259650_1991761080856251_526968624380903424_n_1991761077522918.jpg",
+          "creation_timestamp": 1529965316
+        }
+      ],
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Andrew Zhang",
+      "timestamp_ms": 1488949842021,
+      "content": "asldfa",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Andrew Zhang",
+      "timestamp_ms": 1488949830424,
+      "content": "hi",
+      "type": "Generic"
+    }
+  ],
+  "title": "Andrew Zhang",
+  "is_still_participant": true,
+  "thread_type": "Regular",
+  "thread_path": "inbox/AndrewZhang_DMTp_6ERjw"
+}
