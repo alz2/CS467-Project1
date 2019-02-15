@@ -34,11 +34,18 @@ class TestConversation(unittest.TestCase):
         self.assert_props(c2)
 
 
-    def test_between_all_dates(self):
+    def test_between_begin_and_end_dates(self):
         dt1 = TestConversation.c1.start_date
         dt2 = TestConversation.c1.end_date
         msgs = TestConversation.c1.between_dates(dt1, dt2)
         self.assertEqual(len(msgs), 2) # exclusive end
+
+
+    def test_between_everything(self):
+        dt1 = TestConversation.c1.start_date
+        dt2 = datetime.fromtimestamp(TestConversation.c1.end_date.timestamp() + 100)
+        msgs = TestConversation.c1.between_dates(dt1, dt2)
+        self.assertEqual(len(msgs), 3) # exclusive end
 
 
     def test_between_some_dates(self):
