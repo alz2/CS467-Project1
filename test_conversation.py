@@ -1,6 +1,7 @@
 import unittest
 from conversation import Conversation
 import os
+from datetime import datetime
 
 class TestConversation(unittest.TestCase):
     conv = "andrewzhang_dmtp_6erjw"
@@ -19,7 +20,7 @@ class TestConversation(unittest.TestCase):
 
 
     def assert_props(self, convo):
-        self.assertEqual(convo.conversation_name, "andrewzhang")
+        self.assertEqual(convo.name, "andrewzhang")
         self.assertEqual(len(convo.members), 1)
         self.assertTrue("Andrew Zhang" in convo.members)
         self.assertEqual(len(convo.messages), 3)
@@ -31,6 +32,27 @@ class TestConversation(unittest.TestCase):
         self.assert_props(c1)
         c2 = Conversation(TestConversation.conv+"/")
         self.assert_props(c2)
+
+
+    def test_between_all_dates(self):
+        dt1 = TestConversation.c1.start_date
+        dt2 = TestConversation.c1.end_date
+        msgs = TestConversation.c1.between_dates(dt1, dt2)
+        self.assertEqual(len(msgs), 2) # exclusive end
+
+
+    def test_between_some_dates(self):
+        dt1 = datetime.fromtimestamp(0)
+        dt2 = datetime.fromtimestamp(1488949842021/1000.0 + 100) # 1488949842021 is ts of 2nd message
+        msgs = TestConversation.c1.between_dates(dt1, dt2)
+        self.assertEqual(len(msgs), 2)
+
+
+    def test_between_some_dates_edge_case(self):
+        dt1 = datetime.fromtimestamp(0)
+        dt2 = datetime.fromtimestamp(1488949842021/1000.0) # 1488949842021 is ts of 2nd message
+        msgs = TestConversation.c2.between_dates(dt1, dt2) # exclusive end
+        self.assertEqual(len(msgs), 1)
 
 
 
