@@ -2,10 +2,30 @@ import os
 import json
 from datetime import datetime
 import bisect
+from collections import defaultdict
 
 class Conversation(object):
+    """
+        Representation of a Facebook Messaging Conversation.
+
+        Attributes:
+            messages (list::dict): list of messages in increasing time order.
+            start_date (datetime): starting date of Conversation.
+            end_date (datetime): ending date of Conversation.
+            members (set::str): particpants of Conversation.
+            num_messages (int): number of messages in Conversation.
+            name (str): name of the Conversation.
+    """
 
     def __init__(self, dir_path):
+        """
+            Constructs a single Conversation Object from a msg directory.
+            Expects 'messages.json' to be within the directory.
+            Could be a group chat, or private message.
+            
+            Args:
+                dir_path (str): path to msg directory
+        """
         if not os.path.isdir(dir_path):
             raise ValueError(f"Can't find {dir_path} directory!")
 
@@ -45,11 +65,6 @@ class Conversation(object):
 
 
     @property
-    def members(self):
-        return self.__members
-
-
-    @property
     def num_messages(self):
         return self.__num_messages
 
@@ -60,13 +75,53 @@ class Conversation(object):
 
 
     def between_dates(self, dt1, dt2):
+        """
+            Returns list of messages between [dt1, dt2) in O(logn)
+
+            Args:
+                dt1 (datetime): start date
+                dt2 (datetime): end date
+
+            Returns:
+                List of messages between [dt1, dt2)
+        """
         lo = bisect.bisect_left(self.__dates, dt1) 
         hi = bisect.bisect_left(self.__dates, dt2, lo=lo)
         return self.messages[lo:hi]
 
 
+    def group_messages_by(self, group_fn):
+        """
+            Groups messages given a group by function.
+
+            Args:
+                group_fn (function): should take in one message (a dict) and 
+                    return the key which it should map to.
+    
+                    Example: The following should return a dictionary mapping
+                    each month to its corresponding messages.
+
+                        c.group_messages_by(lambda d: d["timestamp"].month)
+            Returns:
+                dictionary of messages mapped by group_fn
+        """
+        res = defaultdict(list)
+        for m in self.messages:
+            res[group_fn(m)].append(m)
+        return res
+
+
     @staticmethod
     def load_inbox(inbox_path):
+        """
+            Loads an entire inbox given a path to an inbox directory.
+
+            Args:
+                inbox_path (str): path to inbox directory
+
+            Returns:
+                List of Conversations
+        """
         if not os.path.isdir(inbox_path):
             raise ValueError(f"Can't find {inbox_path} directory!")
         dir_base = Conversation.__format_dir_str(inbox_path)

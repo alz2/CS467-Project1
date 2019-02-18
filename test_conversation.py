@@ -62,6 +62,25 @@ class TestConversation(unittest.TestCase):
         self.assertEqual(len(msgs), 1)
 
 
+    def test_group_by_each_date(self):
+        groups = TestConversation.c1.group_messages_by(
+                lambda m: m["timestamp"])
+
+        self.assertEqual(len(groups), TestConversation.c1.num_messages)
+        for k in groups:
+            self.assertEqual(len(groups[k]), 1)
+
+
+    def test_group_by_year(self):
+        groups = TestConversation.c1.group_messages_by(
+                lambda m: m["timestamp"].year) 
+
+        self.assertEqual(len(groups), 2)
+        self.assertTrue(2018 in groups.keys())
+        self.assertTrue(2017 in groups.keys())
+        self.assertTrue(len(groups[2017]), 2)
+        self.assertTrue(len(groups[2018]), 1)
+
 
 if __name__ == '__main__':
     unittest.main()
