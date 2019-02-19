@@ -1,0 +1,88 @@
+{
+  "participants": [
+    {
+      "name": "Jane Doe"
+    },
+    {
+      "name": "Andrew Zhang"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Andrew Zhang",
+      "timestamp_ms": 1448240779595,
+      "content": "mk",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Jane Doe",
+      "timestamp_ms": 1448239612919,
+      "content": "Nevermind, I found it",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Jane Doe",
+      "timestamp_ms": 1448239205347,
+      "content": "Hey, where do we find the thing with everything we need for the response for econ?",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Andrew Zhang",
+      "timestamp_ms": 1445384022189,
+      "content": "np!",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Jane Doe",
+      "timestamp_ms": 1445381282620,
+      "content": "Ok thanks",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Andrew Zhang",
+      "timestamp_ms": 1445381204537,
+      "content": "i think i saw 3.9 on the board",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Andrew Zhang",
+      "timestamp_ms": 1445381156200,
+      "content": "we have a quizk",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Jane Doe",
+      "timestamp_ms": 1445381129245,
+      "content": "Did we have econ hw?",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Jane Doe",
+      "timestamp_ms": 1445215256417,
+      "content": "Np",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Andrew Zhang",
+      "timestamp_ms": 1445214427384,
+      "content": "Ok thanks!",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Jane Doe",
+      "timestamp_ms": 1445214111765,
+      "content": "Sorry I just saw this. Yea it was 3-6 parts c and d",
+      "type": "Generic"
+    },
+    {
+      "sender_name": "Andrew Zhang",
+      "timestamp_ms": 1445209524068,
+      "content": "Hey Joe, did we have any econ hw?",
+      "type": "Generic"
+    }
+  ],
+  "title": "Jane Doe",
+  "is_still_participant": true,
+  "thread_type": "Regular",
+  "thread_path": "inbox/JoeStachnik_jL7eKhkPHQ"
+}
