@@ -49,9 +49,13 @@ def create_response(
 
 def message_metrics(msgs):
     """
-    Input: List of dictionaries
-    Output: List of dictionary containing metrics per message
-        {"metric1": val, "metric2", val}
+    Gets the metrics
+
+    Args: 
+            List of dictionaries of messages
+    Returns: 
+            List of dictionary containing metrics per message
+            {"metric1": val, "metric2", val}
 
     """
     import requests
