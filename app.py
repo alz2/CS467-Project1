@@ -6,7 +6,8 @@ import sys
 from conversation import Conversation
 
 app = Flask(__name__)
-inbox = []
+inbox = None
+formatted_json = None
 
 """
 Vis Json format 
@@ -54,17 +55,18 @@ def message_metrics(msgs):
 
 @app.route("/")
 def get_vis():
-    formatted = {}
-    for c in inbox:
-        formatted[c.name] = {
-                "name":c.name, 
-                "messages":message_metrics(c.messages),
-                }
-    return create_response(formatted)
+    global formatted_json
+    if formatted_json is None:
+        formatted_json = {c.name:{
+            "name":c.name,
+            "messages":message_metrics(c.messages)
+        } for c in inbox}
+    return create_response(formatted_json)
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         raise ValueError("python3 app.py {inbox_path/}")
+    print("="*16+f"LOADING {sys.argv[1]}"+"="*16)
     inbox = Conversation.load_inbox(sys.argv[1]) 
     app.run(port=8080, debug=True)
