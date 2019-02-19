@@ -125,7 +125,8 @@ class Conversation(object):
         if not os.path.isdir(inbox_path):
             raise ValueError(f"Can't find {inbox_path} directory!")
         dir_base = Conversation.__format_dir_str(inbox_path)
-        return [Conversation(f"{dir_base}{dm}") for dm in os.listdir(inbox_path)]
+        return [Conversation(f"{dir_base}{dm}") 
+                for dm in os.listdir(inbox_path) if dm[0] != "."]
 
     """
     Helper Methods
