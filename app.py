@@ -49,9 +49,27 @@ def create_response(
 
 
 def message_metrics(msgs):
-    #TODO: list of {"metric1": val, "metric2", val} for each msg
-    return msgs
+    """
+    Gets the metrics
 
+    Args: 
+            List of dictionaries of messages
+    Returns: 
+            List of dictionary containing metrics per message
+            {"metric1": val, "metric2", val}
+
+    """
+    import requests
+    metrics_list = []
+    for message in msgs:
+        data = {'text': message['content']}
+        response = requests.post('http://text-processing.com/api/sentiment/', data=data)
+        metrics = response.json()['probability']
+        metrics['tag'] = response.json()['label']
+        #print(metrics)
+        metrics_list.append(metrics)
+    return metrics_list
+    
 
 @app.route("/")
 def get_vis():
