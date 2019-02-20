@@ -66,7 +66,7 @@ def message_metrics(msgs):
         response = requests.post('http://text-processing.com/api/sentiment/', data=data)
         metrics = response.json()['probability']
         metrics['tag'] = response.json()['label']
-        #print(metrics)
+        metrics['Date'] = message['timestamp_ms']
         metrics_list.append(metrics)
     return metrics_list
     
