@@ -87,4 +87,4 @@ if __name__ == "__main__":
         raise ValueError("python3 app.py {inbox_path/}")
     print("="*16+f"LOADING {sys.argv[1]}"+"="*16)
     inbox = Conversation.load_inbox(sys.argv[1]) 
-    app.run(port=8080, debug=True)
+    app.run(port=8000, debug=True)
