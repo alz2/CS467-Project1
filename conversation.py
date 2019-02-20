@@ -7,7 +7,6 @@ from collections import defaultdict
 class Conversation(object):
     """
         Representation of a Facebook Messaging Conversation.
-
         Attributes:
             messages (list::dict): list of messages in increasing time order.
             start_date (datetime): starting date of Conversation.
@@ -77,11 +76,9 @@ class Conversation(object):
     def between_dates(self, dt1, dt2):
         """
             Returns list of messages between [dt1, dt2) in O(logn)
-
             Args:
                 dt1 (datetime): start date
                 dt2 (datetime): end date
-
             Returns:
                 List of messages between [dt1, dt2)
         """
@@ -93,14 +90,12 @@ class Conversation(object):
     def group_messages_by(self, group_fn):
         """
             Groups messages given a group by function.
-
             Args:
                 group_fn (function): should take in one message (a dict) and 
                     return the key which it should map to.
     
                     Example: The following should return a dictionary mapping
                     each month to its corresponding messages.
-
                         c.group_messages_by(lambda d: d["timestamp"].month)
             Returns:
                 dictionary of messages mapped by group_fn
@@ -115,10 +110,8 @@ class Conversation(object):
     def load_inbox(inbox_path):
         """
             Loads an entire inbox given a path to an inbox directory.
-
             Args:
                 inbox_path (str): path to inbox directory
-
             Returns:
                 List of Conversations
         """
@@ -173,5 +166,3 @@ class Conversation(object):
         if dstr[-1] != "/":
             return dstr + "/"
         return dstr
-
-
