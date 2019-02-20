@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import * as d3 from 'd3'
-import humanizeDate from './utils.js'
+import {humanizeDate} from './utils.js'
 import * as eventDrops from 'event-drops'
 
 
@@ -12,9 +12,9 @@ class MessageDrops extends Component {
     }
 
     updateCommitsInformation = chart => {
-        //const filteredData = chart
-        //    .filteredData()
-        //    .reduce((total, repo) => total.concat(repo.data), []);
+        const filteredData = chart
+            .filteredData()
+            .reduce((total, repo) => total.concat(repo.data), []);
 
         //numberCommitsContainer.textContent = filteredData.length;
         //zoomStart.textContent = humanizeDate(chart.scale().domain()[0]);
@@ -40,6 +40,13 @@ class MessageDrops extends Component {
         console.log("createMessageDrops");
         console.log(repositoriesData)
 
+        const tooltip = d3
+            .select('body')
+            .append('div')
+            .classed('tooltip', true)
+            .style('opacity', 0)
+            .style('pointer-events', 'auto');
+
         const chart = eventDrops({
             d3,
             zoom: {
@@ -47,50 +54,46 @@ class MessageDrops extends Component {
             },
             drop: {
                 date: d => new Date(d.date),
-                //onMouseOver: commit => {
-                //    tooltip
-                //        .transition()
-                //        .duration(200)
-                //        .style('opacity', 1)
-                //        .style('pointer-events', 'auto');
+                onMouseOver: commit => {
+                    tooltip
+                        .transition()
+                        .duration(200)
+                        .style('opacity', 1)
+                        .style('pointer-events', 'auto');
 
-                //    tooltip
-                //        .html(
-                //            `
-                //    <div class="commit">
-                //    <img class="avatar" src="${gravatar(
-                //        commit.author.email
-                //    )}" alt="${commit.author.name}" title="${
-                //        commit.author.name
-                //    }" />
-                //    <div class="content">
-                //        <h3 class="message">${commit.message}</h3>
-                //        <p>
-                //            <a href="https://www.github.com/${
-                //                commit.author.name
-                //            }" class="author">${commit.author.name}</a>
-                //            on <span class="date">${humanizeDate(
-                //                new Date(commit.date)
-                //            )}</span> -
-                //            <a class="sha" href="${
-                //                commit.sha
-                //            }">${commit.sha.substr(0, 10)}</a>
-                //        </p>
-                //    </div>
-                //`
-                //        )
-                //        .style('left', `${d3.event.pageX - 30}px`)
-                //        .style('top', `${d3.event.pageY + 20}px`);
-                //},
-                //onMouseOut: () => {
-                //    tooltip
-                //        .transition()
-                //        .duration(500)
-                //        .style('opacity', 0)
-                //        .style('pointer-events', 'none');
-                //},
+                    tooltip
+                        .html(
+                            `
+                    <div class="commit">
+                    <div class="content">
+                        <h3 class="message">${commit.message}</h3>
+                        <p>
+                            <a href="https://www.github.com/${
+                                commit.author.name
+                            }" class="author">${commit.author.name}</a>
+                            on <span class="date">${humanizeDate(
+                                new Date(commit.date)
+                            )}</span> -
+                            <a class="sha" href="${
+                                commit.sha
+                            }">${commit.sha.substr(0, 10)}</a>
+                        </p>
+                    </div>
+                `
+                        )
+                        .style('left', `${d3.event.pageX - 30}px`)
+                        .style('top', `${d3.event.pageY + 20}px`);
+                },
+                onMouseOut: () => {
+                    tooltip
+                        .transition()
+                        .duration(500)
+                        .style('opacity', 0)
+                        .style('pointer-events', 'none');
+                },
             },
         });
+
         d3
             .select(node)
             .data([repositoriesData])
@@ -101,10 +104,14 @@ class MessageDrops extends Component {
         console.log("render");
         console.log(this.props.data);
         if (this.props.data == null) {
-            return (<h1> Loading </h1>);
+            return (<h1> Loading... </h1>);
         }
-        return <svg ref={node => this.node = node} width={this.props.size[0]} height={this.props.size[1]}>
-            </svg>
+        return (
+            <div>
+            <p className="infos">Info</p>
+            <svg ref={node => this.node = node} width={this.props.size[0]} height={this.props.size[1]}></svg>
+            </div>
+        )
     }
 }
 

@@ -23,7 +23,7 @@ class App extends Component {
         return (
           <div className="App">
             <h1>Event Drops Demo</h1>
-            <MessageDrops data={this.state.data} size={[500,500]}/>
+            <MessageDrops data={this.state.data} size={[1000,500]}/>
           </div>
         );
         //return (
