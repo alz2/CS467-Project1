@@ -107,9 +107,9 @@ class MessageDrops extends Component {
             return (<h1> Loading... </h1>);
         }
         return (
-            <div>
+            <div style={{width:"90%"}}>
             <p className="infos">Info</p>
-            <svg ref={node => this.node = node} width={this.props.size[0]} height={this.props.size[1]}></svg>
+            <svg ref={node => this.node = node} width="auto" height="auto"></svg>
             </div>
         )
     }
