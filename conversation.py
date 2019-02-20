@@ -27,7 +27,7 @@ class Conversation(object):
                 dir_path (str): path to msg directory
         """
         if not os.path.isdir(dir_path):
-            raise ValueError("Can't find {dir_path} directory!")
+            raise ValueError("Can't find {} directory!".format(dir_path))
 
         dir_path = Conversation.__format_dir_str(dir_path)
         self.__name = self.__name_from_path(dir_path)
@@ -41,7 +41,7 @@ class Conversation(object):
 
 
     def __repr__(self):
-        return "Convo({self.__num_messages})"
+        return "Convo({})".format(self.num_messages)
 
 
     @property
@@ -123,9 +123,9 @@ class Conversation(object):
                 List of Conversations
         """
         if not os.path.isdir(inbox_path):
-            raise ValueError("Can't find {inbox_path} directory!")
+            raise ValueError("Can't find {} directory!".format(inbox_path))
         dir_base = Conversation.__format_dir_str(inbox_path)
-        return [Conversation("{dir_base}{dm}") 
+        return [Conversation(dir_base+dm) 
                 for dm in os.listdir(inbox_path) if dm[0] != "."]
 
     """
@@ -134,7 +134,7 @@ class Conversation(object):
 
     def __load_msgs(self, dir_name):
         dir_name = Conversation.__format_dir_str(dir_name)
-        msg_file = "{dir_name}message.json"
+        msg_file = dir_name + "message.json"
 
         with open(msg_file, 'r') as inf:
             d = json.load(inf)
