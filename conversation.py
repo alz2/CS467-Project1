@@ -7,7 +7,6 @@ from collections import defaultdict
 class Conversation(object):
     """
         Representation of a Facebook Messaging Conversation.
-
         Attributes:
             messages (list::dict): list of messages in increasing time order.
             start_date (datetime): starting date of Conversation.
@@ -27,7 +26,7 @@ class Conversation(object):
                 dir_path (str): path to msg directory
         """
         if not os.path.isdir(dir_path):
-            raise ValueError(f"Can't find {dir_path} directory!")
+            raise ValueError("Can't find {dir_path} directory!")
 
         dir_path = Conversation.__format_dir_str(dir_path)
         self.__name = self.__name_from_path(dir_path)
@@ -41,7 +40,7 @@ class Conversation(object):
 
 
     def __repr__(self):
-        return f"Convo({self.__num_messages})"
+        return "Convo({self.__num_messages})"
 
 
     @property
@@ -77,11 +76,9 @@ class Conversation(object):
     def between_dates(self, dt1, dt2):
         """
             Returns list of messages between [dt1, dt2) in O(logn)
-
             Args:
                 dt1 (datetime): start date
                 dt2 (datetime): end date
-
             Returns:
                 List of messages between [dt1, dt2)
         """
@@ -93,14 +90,12 @@ class Conversation(object):
     def group_messages_by(self, group_fn):
         """
             Groups messages given a group by function.
-
             Args:
                 group_fn (function): should take in one message (a dict) and 
                     return the key which it should map to.
     
                     Example: The following should return a dictionary mapping
                     each month to its corresponding messages.
-
                         c.group_messages_by(lambda d: d["timestamp"].month)
             Returns:
                 dictionary of messages mapped by group_fn
@@ -115,17 +110,15 @@ class Conversation(object):
     def load_inbox(inbox_path):
         """
             Loads an entire inbox given a path to an inbox directory.
-
             Args:
                 inbox_path (str): path to inbox directory
-
             Returns:
                 List of Conversations
         """
         if not os.path.isdir(inbox_path):
-            raise ValueError(f"Can't find {inbox_path} directory!")
+            raise ValueError("Can't find {inbox_path} directory!")
         dir_base = Conversation.__format_dir_str(inbox_path)
-        return [Conversation(f"{dir_base}{dm}") 
+        return [Conversation("{dir_base}{dm}") 
                 for dm in os.listdir(inbox_path) if dm[0] != "."]
 
     """
@@ -134,7 +127,7 @@ class Conversation(object):
 
     def __load_msgs(self, dir_name):
         dir_name = Conversation.__format_dir_str(dir_name)
-        msg_file = f"{dir_name}message.json"
+        msg_file = "{dir_name}message.json"
 
         with open(msg_file, 'r') as inf:
             d = json.load(inf)
@@ -173,5 +166,3 @@ class Conversation(object):
         if dstr[-1] != "/":
             return dstr + "/"
         return dstr
-
-
