@@ -14,7 +14,21 @@ class App extends Component {
             allData: null,
             filteredData: null,
             conversationOptions: null,
-            checkedFriends: null
+            checkedFriends: null,
+            metricOptions: [
+                {
+                    value: "Postive",
+                    label: "Postive"
+                },
+                {
+                    value: "Negative",
+                    label: "Negative"
+                },
+                {
+                    value: "Neutral",
+                    label: "Neutral"
+                }
+            ]
         }
     }
 
@@ -82,11 +96,14 @@ class App extends Component {
             }
             </p>
             </fieldset>
-                <select id="neighborhoods-select" class="theme-pink">
-                    <option value="Positive">Positive</option>
-                    <option value="Negative">Negative</option>
-                    <option value="Negative">Neutral</option>
-                </select>
+              <Select
+                isMulti
+                name="metrics"
+                options={this.state.metricOptions}
+                className="basic-multi-select"
+                classNamePrefix="select"
+            />
+
             </div>
         );
     }
