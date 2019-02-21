@@ -60,14 +60,17 @@ def message_metrics(msgs,name):
     import requests
     metrics_list = []
     for message in msgs:
-        data = {'text': message['content']}
-        response = requests.post('http://text-processing.com/api/sentiment/', data=data)
-        metrics = response.json()['probability']
-        metrics['tag'] = response.json()['label']
-        #print (message)
-        metrics['Date'] = str(message['timestamp'])
-        metrics['name'] = name
-        metrics_list.append(metrics)
+        try:
+            data = {'text': message['content']}
+            response = requests.post('http://text-processing.com/api/sentiment/', data=data)
+            metrics = response.json()['probability']
+            metrics['tag'] = response.json()['label']
+            #print (message)
+            metrics['Date'] = str(message['timestamp'])
+            metrics['name'] = name
+            metrics_list.append(metrics)
+        except:
+            continue
     return metrics_list
     
 
@@ -78,6 +81,7 @@ def get_vis():
         formatted_json = {}
         conversation_metrics = []
         for c in inbox:
+            print("Requesting:", c.name)
             i = {}
             i['name'] = c.name
             i['messages'] = message_metrics(c.messages,c.name)
