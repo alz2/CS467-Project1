@@ -38,6 +38,12 @@ class App extends Component {
         });
     }
 
+    handleFriendChange(ev) {
+        console.log(ev.target.value);
+        console.log(ev.target.checked);
+
+    }
+
     render() {
         return (
             <div className="App">
@@ -51,15 +57,16 @@ class App extends Component {
             { this.state.conversation_options != null &&
                 this.state.conversation_options.map(co => {
                     return (
-                        <label class="container">{co.label}
-                        <input type="checkbox" /> 
-                        <span class="checkmark"></span>
-                        </label>);
+                        <label className="container">{co.label}
+                        <input type="checkbox" value={co.value} onChange={this.handleFriendChange}/> 
+                        <span className="checkmark"></span>
+                        </label>
+                    );
                 })
             }
             </p>
             </fieldset>
-                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+                <select id="neighborhoods-select">
                     <option value="Sentiment">Sentiment</option>
                     <option value="Emotion">Emotion</option>
                 </select>
