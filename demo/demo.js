@@ -4,7 +4,7 @@ import eventDrops from '../src';
 import '../src/style.css';
 import { gravatar, humanizeDate } from './utils';
 
-const repositories = require('./data.json');
+const repositories = require('./data2.json');
 
 const numberCommitsContainer = document.getElementById('numberCommits');
 const zoomStart = document.getElementById('zoomStart');
@@ -33,7 +33,7 @@ const chart = eventDrops({
         onZoomEnd: () => updateCommitsInformation(chart),
     },
     drop: {
-        date: d => new Date(d.date),
+        date: d => new Date(d.Date),
         onMouseOver: commit => {
             tooltip
                 .transition()
@@ -46,22 +46,22 @@ const chart = eventDrops({
                     `
                     <div class="commit">
                     <img class="avatar" src="${gravatar(
-                        commit.author.email
-                    )}" alt="${commit.author.name}" title="${
-                        commit.author.name
+                        messages.name
+                    )}" alt="${messages.name}" title="${
+                        messages.name
                     }" />
                     <div class="content">
-                        <h3 class="message">${commit.message}</h3>
+                        <h3 class="message">${messages.tag}</h3>
                         <p>
                             <a href="https://www.github.com/${
-                                commit.author.name
-                            }" class="author">${commit.author.name}</a>
+                                messages.name
+                            }" class="author">${messages.name}</a>
                             on <span class="date">${humanizeDate(
-                                new Date(commit.date)
+                                new Date(commit.Date)
                             )}</span> -
                             <a class="sha" href="${
-                                commit.sha
-                            }">${commit.sha.substr(0, 10)}</a>
+                                messages.tag
+                            }">${messages.tag}</a>
                         </p>
                     </div>
                 `

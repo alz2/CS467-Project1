@@ -48,7 +48,7 @@ def create_response(
     return jsonify(response), status
 
 
-def message_metrics(msgs):
+def message_metrics(msgs,name):
     """
     Gets the metrics
     Args: 
@@ -65,7 +65,8 @@ def message_metrics(msgs):
         metrics = response.json()['probability']
         metrics['tag'] = response.json()['label']
         #print (message)
-        metrics['Date'] = message['timestamp']
+        metrics['Date'] = str(message['timestamp'])
+        metrics['name'] = name
         metrics_list.append(metrics)
     return metrics_list
     
@@ -74,10 +75,15 @@ def message_metrics(msgs):
 def get_vis():
     global formatted_json
     if formatted_json is None:
-        formatted_json = {c.name:{
-            "name":c.name,
-            "messages":message_metrics(c.messages)
-        } for c in inbox}
+        formatted_json = {}
+        conversation_metrics = []
+        for c in inbox:
+            i = {}
+            i['name'] = c.name
+            i['messages'] = message_metrics(c.messages,c.name)
+            conversation_metrics.append(i)
+        formatted_json["conversations"] = conversation_metrics
+
     return create_response(formatted_json)
 
 
@@ -86,5 +92,4 @@ if __name__ == "__main__":
         raise ValueError("python3 app.py {inbox_path/}")
     print("="*16+f"LOADING {sys.argv[1]}"+"="*16)
     inbox = Conversation.load_inbox(sys.argv[1]) 
-    #get_vis()
     app.run(port=8080, debug=True)
