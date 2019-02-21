@@ -2,10 +2,13 @@ from flask import Flask, jsonify
 from typing import Tuple
 from flask import Flask, jsonify, request, Response
 import sys
+from flask_cors import CORS
+
 
 from conversation import Conversation
 
 app = Flask(__name__)
+CORS(app)
 inbox = None
 formatted_json = None
 
