@@ -69,9 +69,13 @@ class MessageDrops extends Component {
                             `
                             <div class="commit">
                             <div class="content">
-                                <p> Pos: ${msg.pos} </p>
-                                <p> Neutral: ${msg.neutral} </p>
-                                <p> Neg: ${msg.neg} </p>
+                                <p> Date: <span class="date">${humanizeDate(
+                                    new Date(msg.Date))}</span> 
+                                </p>
+                                <p> Positive ${msg.pos.toString().substr(0, 5)}</p>
+                                
+                                <p> Neutral: ${msg.neutral.toString().substr(0, 5)} </p>
+                                <p> Neg: ${msg.neg.toString().substr(0, 5)} </p>
                             </div>
                             `
                         )
