@@ -77,7 +77,7 @@ class App extends Component {
             }
             </p>
             </fieldset>
-                <select id="neighborhoods-select">
+                <select id="neighborhoods-select" class="theme-pink">
                     <option value="Positive">Positive</option>
                     <option value="Negative">Negative</option>
                     <option value="Negative">Neutral</option>
