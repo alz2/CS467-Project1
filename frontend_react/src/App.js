@@ -29,6 +29,26 @@ class App extends Component {
             <div className="App">
                 <h1>Event Drops Demo</h1>
                 <MessageDrops data={this.state.data}/>
+                
+
+                
+        <h2>Metrics and Friends filter</h2>
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+          <option value="Sentiment">Sentiment</option>
+          <option value="Emotion">Emotion</option>
+        </select>
+        <label for="metric-select">Metric-select</label>
+        
+                <br />
+                <select multiple id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+                <option value="Andrew_Zhang">Andrew Zhang</option>
+                <option value="Lil_Pump">Lil Pump</option>
+                <option value="Justin_Bieber">Justin Bieber</option>
+                </select>
+                <label for="friends-select">Friends-select</label>
+                <input type="submit" id="submit_1">
+                 </input>
+                 
             </div>
         );
     }
