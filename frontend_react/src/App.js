@@ -38,7 +38,8 @@ class App extends Component {
           <option value="Emotion">Emotion</option>
         </select>
         <label for="metric-select">Metric-select</label>
-        
+                <br />
+                <br />
                 <br />
                 <select multiple id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
                 <option value="Andrew_Zhang">Andrew Zhang</option>
