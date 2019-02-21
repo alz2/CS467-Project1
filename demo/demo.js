@@ -57,7 +57,7 @@ const chart = eventDrops({
                                 messages.name
                             }" class="author">${messages.name}</a>
                             on <span class="date">${humanizeDate(
-                                new Date(commit.Date)
+                                new Date(messages.date)
                             )}</span> -
                             <a class="sha" href="${
                                 messages.tag
