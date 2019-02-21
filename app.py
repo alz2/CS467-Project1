@@ -45,7 +45,7 @@ def create_response(
     return jsonify(response), status
 
 
-def message_metrics(msgs):
+def message_metrics(msgs,name):
     """
     Gets the metrics
     Args: 
@@ -61,7 +61,9 @@ def message_metrics(msgs):
         response = requests.post('http://text-processing.com/api/sentiment/', data=data)
         metrics = response.json()['probability']
         metrics['tag'] = response.json()['label']
-        metrics['Date'] = message['timestamp'].timestamp()
+        #print (message)
+        metrics['Date'] = str(message['timestamp'])
+        metrics['name'] = name
         metrics_list.append(metrics)
     return metrics_list
     
@@ -76,10 +78,24 @@ def get_vis():
         } for c in inbox}
     return create_response(formatted_json)
 
+def get_vis_2(inbox):
+    import json
+    formatted_json = []
+    for c in inbox:
+        i = {}
+        i['name'] = c.name
+        i['messages'] = message_metrics(c.messages,c.name)
 
+        formatted_json.append(i)
+        
+    with open('computed_metrics.json', 'w') as outfile:
+        json.dump(formatted_json, outfile)
+
+    return None
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         raise ValueError("python3 app.py {inbox_path/}")
     print("="*16+f"LOADING {sys.argv[1]}"+"="*16)
     inbox = Conversation.load_inbox(sys.argv[1]) 
-    app.run(port=8080, debug=True)
+    get_vis_2(inbox)
+    #app.run(port=8080, debug=True)
