@@ -28,6 +28,14 @@ class MessageDrops extends Component {
         this.createMessageDrops()
     }
 
+    scaleColor(color1, color2, val) {
+        let gradient = d3.scaleLinear()
+            .domain([0, 1])
+            .range([color1, color2])
+        return gradient(val);
+    }
+
+
     createMessageDrops() {
 
         if (this.props.data == null) {
@@ -98,11 +106,11 @@ class MessageDrops extends Component {
                     let neg = d.neg;
                     let neut = d.neutral;
                     if (pos > neg && pos > neut) {
-                        return "green";
+                        return this.scaleColor("white", "green", pos);
                     } else if (neg > pos && neg > neut) {
-                        return "red";
+                        return this.scaleColor("white", "red", neg);
                     } else {
-                        return "grey";
+                        return this.scaleColor("white", "black", neut);
                     }
                 }
             },

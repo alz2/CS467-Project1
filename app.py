@@ -57,20 +57,24 @@ def message_metrics(msgs,name):
             List of dictionary containing metrics per message
             {"metric1": val, "metric2", val}
     """
-    import requests
+    from nltk.sentiment.vader import SentimentIntensityAnalyzer
+    import datetime
+    import operator
     metrics_list = []
+    sid = SentimentIntensityAnalyzer()
     for message in msgs:
-        try:
-            data = {'text': message['content']}
-            response = requests.post('http://text-processing.com/api/sentiment/', data=data)
-            metrics = response.json()['probability']
-            metrics['tag'] = response.json()['label']
-            #print (message)
-            metrics['Date'] = str(message['timestamp'])
-            metrics['name'] = name
-            metrics_list.append(metrics)
-        except:
-            continue
+        #metrics = {}
+        metrics = sid.polarity_scores(message['content'])
+        #print (ss)
+        #metrics['pos'] = ss['pos']
+        #metrics['neg'] = ss['neg']
+        #metrics['neutral'] = ss['neu']
+        #print (message)
+        metrics['neutral'] = metrics['neu']
+        del metrics['neu']
+        metrics['Date'] = str(message['timestamp'])
+        metrics['name'] = name
+        metrics_list.append(metrics)
     return metrics_list
     
 
