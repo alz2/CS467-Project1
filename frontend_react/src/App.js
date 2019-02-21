@@ -61,7 +61,12 @@ class App extends Component {
             <h1>FRED</h1>
             <h6> Facebook Relationship Exploring Dots </h6>
             <br />
-            <MessageDrops data={this.state.filteredData}/>
+            { this.state.allData != null &&
+                <MessageDrops data={this.state.filteredData}/>
+            }
+            { this.state.allData == null &&
+                <h1> Loading... </h1>
+            }
             <fieldset>
             <legend>Friends Checklist</legend>
             <p>

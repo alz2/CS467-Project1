@@ -118,9 +118,9 @@ class MessageDrops extends Component {
         }
         return (
             <div style={{width:"90%"}} ref={node => this.node = node}>
-            //<svg ref={node => this.node = node} width="100%" height="100%"></svg>
             </div>
         )
+            //<svg ref={node => this.node = node} width="100%" height="100%"></svg>
     }
 }
 
