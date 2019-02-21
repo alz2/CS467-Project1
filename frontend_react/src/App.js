@@ -29,8 +29,29 @@ class App extends Component {
             <div className="App">
                 <h1>Event Drops Demo</h1>
                 <MessageDrops data={this.state.data}/>
-            </div>
-        );
+		<fieldset>
+		<legend>Friends Checklist</legend>
+		<p>
+		<label class="container">Andrew Zhang
+		<input type="checkbox" onclick='filter(this);'/>
+		<span class="checkmark"></span>
+		</label>
+		<label class="container">Lil Pump
+		<input type="checkbox" onclick='filter(this);'/>
+		<span class="checkmark"></span>
+		</label>
+		<label class="container">Justin Bieber
+		<input type="checkbox" onclick='filter(this);'/>
+		<span class="checkmark"></span>
+		</label>
+		</p>
+		</fieldset>
+
+		<script>
+		function filter()
+		</script>
+	    </div>
+	);
     }
 }
 
