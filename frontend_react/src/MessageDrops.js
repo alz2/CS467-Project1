@@ -30,15 +30,19 @@ class MessageDrops extends Component {
 
     createMessageDrops() {
 
+        if (this.props.data == null) {
+            return;
+        }
+
         const node = this.node;
 
-        const repositoriesData = this.props.data.map(repository => ({
-            name: repository.name,
-            data: repository.commits,
+        const conversationData = this.props.data.map(c => ({
+            name: c.name,
+            data: c.messages,
         }));
 
         console.log("createMessageDrops");
-        console.log(repositoriesData)
+        console.log(conversationData)
 
         const tooltip = d3
             .select('body')
@@ -53,8 +57,10 @@ class MessageDrops extends Component {
                 onZoomEnd: () => this.updateCommitsInformation(chart),
             },
             drop: {
-                date: d => new Date(d.date),
-                onMouseOver: commit => {
+                date: d => { 
+                    return new Date(d.Date)
+                },
+                onMouseOver: msg => {
                     tooltip
                         .transition()
                         .duration(200)
@@ -64,22 +70,13 @@ class MessageDrops extends Component {
                     tooltip
                         .html(
                             `
-                    <div class="commit">
-                    <div class="content">
-                        <h3 class="message">${commit.message}</h3>
-                        <p>
-                            <a href="https://www.github.com/${
-                                commit.author.name
-                            }" class="author">${commit.author.name}</a>
-                            on <span class="date">${humanizeDate(
-                                new Date(commit.date)
-                            )}</span> -
-                            <a class="sha" href="${
-                                commit.sha
-                            }">${commit.sha.substr(0, 10)}</a>
-                        </p>
-                    </div>
-                `
+                            <div class="commit">
+                            <div class="content">
+                                <p> Pos: ${msg.pos} </p>
+                                <p> Neutral: ${msg.neutral} </p>
+                                <p> Neg: ${msg.neg} </p>
+                            </div>
+                            `
                         )
                         .style('left', `${d3.event.pageX - 30}px`)
                         .style('top', `${d3.event.pageY + 20}px`);
@@ -96,7 +93,7 @@ class MessageDrops extends Component {
 
         d3
             .select(node)
-            .data([repositoriesData])
+            .data([conversationData])
             .call(chart);
     }
 
