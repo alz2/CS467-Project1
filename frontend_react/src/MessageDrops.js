@@ -53,10 +53,12 @@ class MessageDrops extends Component {
 
         const chart = eventDrops({
             d3,
+            line: { color: (_, index) => d3.schemeCategory10[index]},
             drop: {
                 date: d => { 
                     return new Date(d.Date)
                 },
+
                 onMouseOver: msg => {
                     tooltip
                         .transition()
@@ -69,19 +71,21 @@ class MessageDrops extends Component {
                             `
                             <div class="commit">
                             <div class="content">
-                                <p> Date: <span class="date">${humanizeDate(
+                                <p> <a class = "date">Date: <span class="date">${humanizeDate(
                                     new Date(msg.Date))}</span> 
                                 </p>
-                                <p> Positive ${msg.pos.toString().substr(0, 5)}</p>
+                                <p><a class = "msg"  > Positive: ${msg.pos.toString().substr(0, 5)} </a></p>
                                 
-                                <p> Neutral: ${msg.neutral.toString().substr(0, 5)} </p>
-                                <p> Neg: ${msg.neg.toString().substr(0, 5)} </p>
+                                <p><a class = "msg"> Neutral: ${msg.neutral.toString().substr(0, 5)} </a> </p>
+                                <p><a class = "msg"> Negative: ${msg.neg.toString().substr(0, 5)} </p>
                             </div>
                             `
                         )
                         .style('left', `${d3.event.pageX - 30}px`)
                         .style('top', `${d3.event.pageY + 20}px`);
                 },
+                
+
                 onMouseOut: () => {
                     tooltip
                         .transition()
