@@ -78,8 +78,9 @@ class App extends Component {
             </p>
             </fieldset>
                 <select id="neighborhoods-select">
-                    <option value="Sentiment">Sentiment</option>
-                    <option value="Emotion">Emotion</option>
+                    <option value="Positive">Positive</option>
+                    <option value="Negative">Negative</option>
+                    <option value="Negative">Neutral</option>
                 </select>
             </div>
         );
