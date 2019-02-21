@@ -11,15 +11,15 @@ class MessageDrops extends Component {
         //console.log(props.data);
     }
 
-    updateCommitsInformation = chart => {
-        const filteredData = chart
-            .filteredData()
-            .reduce((total, repo) => total.concat(repo.data), []);
+    //updateCommitsInformation = chart => {
+    //    const filteredData = chart
+    //        .filteredData()
+    //        .reduce((total, repo) => total.concat(repo.data), []);
 
-        //numberCommitsContainer.textContent = filteredData.length;
-        //zoomStart.textContent = humanizeDate(chart.scale().domain()[0]);
-        //zoomEnd.textContent = humanizeDate(chart.scale().domain()[1]);
-    };
+    //    //numberCommitsContainer.textContent = filteredData.length;
+    //    //zoomStart.textContent = humanizeDate(chart.scale().domain()[0]);
+    //    //zoomEnd.textContent = humanizeDate(chart.scale().domain()[1]);
+    //};
 
     componentDidMount() {
         this.createMessageDrops()
@@ -53,9 +53,6 @@ class MessageDrops extends Component {
 
         const chart = eventDrops({
             d3,
-            zoom: {
-                onZoomEnd: () => this.updateCommitsInformation(chart),
-            },
             drop: {
                 date: d => { 
                     return new Date(d.Date)
@@ -104,9 +101,8 @@ class MessageDrops extends Component {
             return (<h1> Loading... </h1>);
         }
         return (
-            <div style={{width:"90%"}}>
-            <p className="infos">Info</p>
-            <svg ref={node => this.node = node} width="auto" height="auto"></svg>
+            <div style={{width:"90%"}} ref={node => this.node = node}>
+            //<svg ref={node => this.node = node} width="100%" height="100%"></svg>
             </div>
         )
     }
