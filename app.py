@@ -61,7 +61,8 @@ def message_metrics(msgs):
         response = requests.post('http://text-processing.com/api/sentiment/', data=data)
         metrics = response.json()['probability']
         metrics['tag'] = response.json()['label']
-        metrics['Date'] = message['timestamp'].timestamp()
+        #print (message)
+        metrics['Date'] = message['timestamp']
         metrics_list.append(metrics)
     return metrics_list
     
@@ -82,4 +83,5 @@ if __name__ == "__main__":
         raise ValueError("python3 app.py {inbox_path/}")
     print("="*16+f"LOADING {sys.argv[1]}"+"="*16)
     inbox = Conversation.load_inbox(sys.argv[1]) 
+    #get_vis()
     app.run(port=8080, debug=True)
