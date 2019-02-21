@@ -85,6 +85,18 @@ class MessageDrops extends Component {
                         .style('opacity', 0)
                         .style('pointer-events', 'none');
                 },
+                color: (d, i) => {
+                    let pos = d.pos;
+                    let neg = d.neg;
+                    let neut = d.neutral;
+                    if (pos > neg && pos > neut) {
+                        return "green";
+                    } else if (neg > pos && neg > neut) {
+                        return "red";
+                    } else {
+                        return "grey";
+                    }
+                }
             },
         });
 
