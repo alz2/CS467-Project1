@@ -17,20 +17,35 @@ class App extends Component {
             checkedFriends: null,
             metricOptions: [
                 {
-                    value: "Postive",
+                    value: "positive",
                     label: "Postive"
                 },
                 {
-                    value: "Negative",
+                    value: "negative",
                     label: "Negative"
                 },
                 {
-                    value: "Neutral",
+                    value: "neutral",
                     label: "Neutral"
                 }
-            ]
+            ],
+            msgFilterFns: {
+                positive: (m) => {
+                    return m.pos > m.neg && m.pos > m.neutral;
+                },
+                neutral: (m) => {
+                    return m.neutral > m.pos && m.neutral > m.neg
+                },
+                negative: (m) => {
+                    return m.neg > m.pos && m.neg > m.neutral
+                },
+                null: false
+            },
+            currentMetric: null
         }
+
     }
+
 
     componentDidMount() {
         console.log("FETCH");
@@ -63,48 +78,72 @@ class App extends Component {
         });
     }
 
+    filterAll() {
+        console.log("FILTERALL");
+        console.log(this.state.currentMetric);
+        let filteredConversations = this.state.allData.filter(c => this.state.checkedFriends[c.name]);
+        let filteredMessages = filteredConversations.map(co => {
+            return {
+                name: co.name,
+                messages: co.messages.filter(m => {
+                    if (this.state.currentMetric == null) {
+                        return false;
+                    }
+                    return this.state.msgFilterFns[this.state.currentMetric](m)
+                })
+            }
+        });
+        this.setState({filteredData: filteredMessages});
+    }
+
+
     handleFriendChange = (ev) => {
         this.state.checkedFriends[ev.target.value] = ev.target.checked; // update state
-        let newFriendData = this.state.allData.filter(c => this.state.checkedFriends[c.name]);
-        this.setState({filteredData:newFriendData})
+        this.filterAll();
     }
+
+    handleMetricChange = (metric) => {
+        this.state.currentMetric = metric.value; // update current metric
+        this.filterAll();
+    }
+
 
     render() {
         return (
             <div className="App">
-            <h1>FRED</h1>
-            <h6> Facebook Relationship Exploring Dots </h6>
-            <br />
-            { this.state.allData != null &&
-                <MessageDrops data={this.state.filteredData}/>
-            }
-            { this.state.allData == null &&
-                <h1> Loading... </h1>
-            }
-            <fieldset>
-            <legend>Friends Checklist</legend>
-            <p>
-            { this.state.conversationOptions != null &&
-                this.state.conversationOptions.map(co => {
-                    return (
-                        <label className="container">{co.label}
-                        <input type="checkbox" value={co.value} onChange={this.handleFriendChange}/> 
-                        <span className="checkmark"></span>
-                        </label>
-                    );
-                })
-            }
-            </p>
-            </fieldset>
-              <Select
-                isMulti
-                name="metrics"
-                options={this.state.metricOptions}
-                className="basic-multi-select"
-                classNamePrefix="select"
-            />
+                <h1>FRED</h1>
+                <h6> Facebook Relationship Exploring Dots </h6>
+                <br />
+                { this.state.allData != null &&
+                        <MessageDrops data={this.state.filteredData}/>
+                }
+                { this.state.allData == null &&
+                        <h1> Loading... </h1>
+                }
+                <fieldset>
+                    <legend>Friends Checklist</legend>
+                    <p>
+                        { this.state.conversationOptions != null &&
+                                this.state.conversationOptions.map(co => {
+                                    return (
+                                        <label className="container">{co.label}
+                                            <input type="checkbox" value={co.value} onChange={this.handleFriendChange}/> 
+                                            <span className="checkmark"></span>
+                                        </label>
+                                    );
+                                })
+                        }
+                    </p>
+                </fieldset>
+                <Select
+                    name="metrics"
+                    onChange={this.handleMetricChange}
+                    options={this.state.metricOptions}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                />
 
-            </div>
+        </div>
         );
     }
 }

@@ -64,6 +64,8 @@ def message_metrics(msgs,name):
     sid = SentimentIntensityAnalyzer()
     for message in msgs:
         #metrics = {}
+        if 'content' not in message:
+            continue
         metrics = sid.polarity_scores(message['content'])
         #print (ss)
         #metrics['pos'] = ss['pos']
