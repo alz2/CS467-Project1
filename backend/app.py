@@ -2,10 +2,13 @@ from flask import Flask, jsonify
 from typing import Tuple
 from flask import Flask, jsonify, request, Response
 import sys
+from flask_cors import CORS
+
 
 from conversation import Conversation
 
 app = Flask(__name__)
+CORS(app)
 inbox = None
 formatted_json = None
 
@@ -54,14 +57,23 @@ def message_metrics(msgs,name):
             List of dictionary containing metrics per message
             {"metric1": val, "metric2", val}
     """
-    import requests
+    from nltk.sentiment.vader import SentimentIntensityAnalyzer
+    import datetime
+    import operator
     metrics_list = []
+    sid = SentimentIntensityAnalyzer()
     for message in msgs:
-        data = {'text': message['content']}
-        response = requests.post('http://text-processing.com/api/sentiment/', data=data)
-        metrics = response.json()['probability']
-        metrics['tag'] = response.json()['label']
+        #metrics = {}
+        if 'content' not in message:
+            continue
+        metrics = sid.polarity_scores(message['content'])
+        #print (ss)
+        #metrics['pos'] = ss['pos']
+        #metrics['neg'] = ss['neg']
+        #metrics['neutral'] = ss['neu']
         #print (message)
+        metrics['neutral'] = metrics['neu']
+        del metrics['neu']
         metrics['Date'] = str(message['timestamp'])
         metrics['name'] = name
         metrics_list.append(metrics)
@@ -72,30 +84,22 @@ def message_metrics(msgs,name):
 def get_vis():
     global formatted_json
     if formatted_json is None:
-        formatted_json = {c.name:{
-            "name":c.name,
-            "messages":message_metrics(c.messages)
-        } for c in inbox}
+        formatted_json = {}
+        conversation_metrics = []
+        for c in inbox:
+            print("Requesting:", c.name)
+            i = {}
+            i['name'] = c.name
+            i['messages'] = message_metrics(c.messages,c.name)
+            conversation_metrics.append(i)
+        formatted_json["conversations"] = conversation_metrics
+
     return create_response(formatted_json)
 
-def get_vis_2(inbox):
-    import json
-    formatted_json = []
-    for c in inbox:
-        i = {}
-        i['name'] = c.name
-        i['messages'] = message_metrics(c.messages,c.name)
 
-        formatted_json.append(i)
-        
-    with open('computed_metrics.json', 'w') as outfile:
-        json.dump(formatted_json, outfile)
-
-    return None
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         raise ValueError("python3 app.py {inbox_path/}")
     print("="*16+f"LOADING {sys.argv[1]}"+"="*16)
     inbox = Conversation.load_inbox(sys.argv[1]) 
-    get_vis_2(inbox)
-    #app.run(port=8080, debug=True)
+    app.run(port=8080, debug=True)
