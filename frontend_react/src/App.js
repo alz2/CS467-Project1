@@ -45,63 +45,25 @@ class App extends Component {
             <h6> Facebook Relationship Exploring Dots </h6>
             <br />
             <MessageDrops data={this.state.data}/>
-            <h2>Metrics and Friends filter</h2>
-            <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-            <option value="Sentiment">Sentiment</option>
-            <option value="Emotion">Emotion</option>
-            </select>
-            <label for="metric-select">Metric-select</label>
-            <br />
-            <br />
-            <br />
-            <select multiple id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+            <fieldset>
+            <legend>Friends Checklist</legend>
+            <p>
             { this.state.conversation_options != null &&
                 this.state.conversation_options.map(co => {
-                    return <option value={co.value}>{co.label}</option>;
+                    return (
+                        <label class="container">{co.label}
+                        <input type="checkbox" /> 
+                        <span class="checkmark"></span>
+                        </label>);
                 })
             }
-            </select>
-            <label for="friends-select">Friends-select</label>
-            <input type="submit" id="submit_1">
-            </input>
-
-            //</div>
-            //<div className="App">
-            //    <h1>FRED</h1>
-            //    <h6> Facebook Relationship Exploring Dots </h6>
-            //    <br />
-            //    <MessageDrops data={this.state.filteredData}/>
-            //    {this.state.conversation_options != null && 
-            //        <Select
-            //        //defaultValue={[colourOptions[2], colourOptions[3]]}
-            //        isMulti
-            //        name="colors"
-            //        options={this.state.conversation_options}
-            //        className="basic-multi-select"
-            //        classNamePrefix="select"
-            //        />
-            //    }
-            //</div>
-                //<h2>Metrics and Friends filter</h2>
-                //<select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-                //    <option value="Sentiment">Sentiment</option>
-                //    <option value="Emotion">Emotion</option>
-                //</select>
-                //<label for="metric-select">Metric-select</label>
-                //<br />
-                //<br />
-                //<br />
-                //<select multiple id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-                ////{ this.state.conversation_names != null &&
-                ////    this.state.conversation_options.map(co => {
-                ////        <option value={co.value}>{co.label}</option>
-                ////    });
-                ////}
-                //</select>
-                //<label for="friends-select">Friends-select</label>
-                //<input type="submit" id="submit_1">
-                //</input>
-
+            </p>
+            </fieldset>
+                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+                    <option value="Sentiment">Sentiment</option>
+                    <option value="Emotion">Emotion</option>
+                </select>
+            </div>
         );
     }
 }
