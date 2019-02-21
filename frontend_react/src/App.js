@@ -11,9 +11,10 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null,
+            allData: null,
             filteredData: null,
-            conversation_options: null
+            conversationOptions: null,
+            checkedFriends: null
         }
     }
 
@@ -22,26 +23,36 @@ class App extends Component {
         fetch("http://localhost:8080").then(res => {
             return res.json();
         }).then(json => {
+
             let all_conversations = json.result.conversations;
-            let conversation_options = all_conversations.map(c => {
+            let conversationOptions = all_conversations.map(c => {
                 return { 
                     value: c.name,
                     label: c.name
                 };
             });
-            console.log(conversation_options);
+
+            // initialize state for check boxes
+            let checkedFriends = {};
+            for (let i = 0; i < conversationOptions.length; i++) {
+                checkedFriends[conversationOptions[i].label] = false;
+            }
+
             this.setState({
-                data: all_conversations,
-                filteredData: all_conversations,
-                conversation_options: conversation_options});
+                allData: all_conversations,
+                filteredData: [],
+                conversationOptions: conversationOptions,
+                checkedFriends: checkedFriends
+            });
+
             console.log(this.state);
         });
     }
 
-    handleFriendChange(ev) {
-        console.log(ev.target.value);
-        console.log(ev.target.checked);
-
+    handleFriendChange = (ev) => {
+        this.state.checkedFriends[ev.target.value] = ev.target.checked; // update state
+        let newFriendData = this.state.allData.filter(c => this.state.checkedFriends[c.name]);
+        this.setState({filteredData:newFriendData})
     }
 
     render() {
@@ -50,12 +61,12 @@ class App extends Component {
             <h1>FRED</h1>
             <h6> Facebook Relationship Exploring Dots </h6>
             <br />
-            <MessageDrops data={this.state.data}/>
+            <MessageDrops data={this.state.filteredData}/>
             <fieldset>
             <legend>Friends Checklist</legend>
             <p>
-            { this.state.conversation_options != null &&
-                this.state.conversation_options.map(co => {
+            { this.state.conversationOptions != null &&
+                this.state.conversationOptions.map(co => {
                     return (
                         <label className="container">{co.label}
                         <input type="checkbox" value={co.value} onChange={this.handleFriendChange}/> 
