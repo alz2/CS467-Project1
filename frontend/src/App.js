@@ -41,7 +41,7 @@ class App extends Component {
                 },
                 null: false
             },
-            currentMetric: null
+            currentMetrics: []
         }
 
     }
@@ -80,16 +80,16 @@ class App extends Component {
 
     filterAll() {
         console.log("FILTERALL");
-        console.log(this.state.currentMetric);
         let filteredConversations = this.state.allData.filter(c => this.state.checkedFriends[c.name]);
+        let metricFilters = this.state.currentMetrics.map(m => this.state.msgFilterFns[m]);
         let filteredMessages = filteredConversations.map(co => {
             return {
                 name: co.name,
                 messages: co.messages.filter(m => {
-                    if (this.state.currentMetric == null) {
+                    if (this.state.currentMetrics.length == 0) {
                         return false;
                     }
-                    return this.state.msgFilterFns[this.state.currentMetric](m)
+                    return metricFilters.some(f => f(m));
                 })
             }
         });
@@ -102,8 +102,8 @@ class App extends Component {
         this.filterAll();
     }
 
-    handleMetricChange = (metric) => {
-        this.state.currentMetric = metric.value; // update current metric
+    handleMetricChange = (metrics) => {
+        this.state.currentMetrics = metrics.map(m => m.value);
         this.filterAll();
     }
 
@@ -136,6 +136,7 @@ class App extends Component {
                     </p>
                 </fieldset>
                 <Select
+                    isMulti
                     name="metrics"
                     onChange={this.handleMetricChange}
                     options={this.state.metricOptions}
