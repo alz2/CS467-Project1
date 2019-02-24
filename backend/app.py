@@ -83,15 +83,19 @@ def message_metrics(msgs,name):
 @app.route("/")
 def get_vis():
     global formatted_json
+    uniq_conversations = set()
     if formatted_json is None:
         formatted_json = {}
         conversation_metrics = []
         for c in inbox:
+            if c.name in uniq_conversations:
+                continue
             print("Requesting:", c.name)
             i = {}
             i['name'] = c.name
             i['messages'] = message_metrics(c.messages,c.name)
             conversation_metrics.append(i)
+            uniq_conversations.add(c.name)
         formatted_json["conversations"] = conversation_metrics
 
     return create_response(formatted_json)
