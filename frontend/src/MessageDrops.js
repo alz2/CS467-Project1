@@ -82,7 +82,8 @@ class MessageDrops extends Component {
                                 <p> <a class = "date">Date: <span class="date">${humanizeDate(
                                     new Date(msg.date))}</span> 
                                 </p>
-                                <p><a class = "msg"  > Positive: ${msg.pos.toString().substr(0, 5)} </a></p>
+                                <p><a class = "msg"> ${msg.content}</p>
+                                <p><a class = "msg"> Positive: ${msg.pos.toString().substr(0, 5)} </a></p>
                                 
                                 <p><a class = "msg"> Neutral: ${msg.neutral.toString().substr(0, 5)} </a> </p>
                                 <p><a class = "msg"> Negative: ${msg.neg.toString().substr(0, 5)} </p>
