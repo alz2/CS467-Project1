@@ -58,25 +58,20 @@ def message_metrics(msgs,name):
             {"metric1": val, "metric2", val}
     """
     from nltk.sentiment.vader import SentimentIntensityAnalyzer
-    import datetime
-    import operator
-    metrics_list = []
     sid = SentimentIntensityAnalyzer()
+    metrics_list = []
     for message in msgs:
-        #metrics = {}
         if 'content' not in message:
             continue
-        metrics = sid.polarity_scores(message['content'])
-        #print (ss)
-        #metrics['pos'] = ss['pos']
-        #metrics['neg'] = ss['neg']
-        #metrics['neutral'] = ss['neu']
-        #print (message)
-        metrics['neutral'] = metrics['neu']
-        del metrics['neu']
-        metrics['Date'] = str(message['timestamp'])
-        metrics['name'] = name
-        metrics_list.append(metrics)
+        polarity_scores = sid.polarity_scores(message['content'])
+        message_info = {}
+        message_info['neutral'] = polarity_scores['neu']
+        message_info['pos'] = polarity_scores['pos']
+        message_info['neg'] = polarity_scores['neg']
+        message_info['date'] = str(message['timestamp'])
+        message_info['name'] = name
+        message_info['content'] = message['content']
+        metrics_list.append(message_info)
     return metrics_list
     
 

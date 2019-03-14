@@ -64,7 +64,7 @@ class MessageDrops extends Component {
             line: { color: (_, index) => d3.schemeCategory10[index]},
             drop: {
                 date: d => { 
-                    return new Date(d.Date)
+                    return new Date(d.date)
                 },
 
                 onMouseOver: msg => {
@@ -80,7 +80,7 @@ class MessageDrops extends Component {
                             <div class="commit">
                             <div class="content">
                                 <p> <a class = "date">Date: <span class="date">${humanizeDate(
-                                    new Date(msg.Date))}</span> 
+                                    new Date(msg.date))}</span> 
                                 </p>
                                 <p><a class = "msg"  > Positive: ${msg.pos.toString().substr(0, 5)} </a></p>
                                 
